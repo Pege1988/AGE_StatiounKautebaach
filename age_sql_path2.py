@@ -33,7 +33,7 @@ Iwwerschwemmung = "Iwwerschwemmunsgefoor"
 
 # Filepaths
 if test == True:
-    folder_path = r"C:\Users\neo_1\Dropbox\Projects\Programing\AGE Statioun Kautebaach"
+    folder_path = r"C:\Users\neo_1\Dropbox\Projects\Programing\AGE_StatiounKautebaach"
 else:
     folder_path = "/volume1/homes/Pege_admin/Python_scripts"
     script_path = "/volume1/python_scripts/AGE_StatiounKautebaach"
