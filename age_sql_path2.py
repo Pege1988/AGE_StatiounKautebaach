@@ -1,4 +1,4 @@
-# Version 2.0.0
+# Version 2.1.0
 
 import requests
 from bs4 import BeautifulSoup
@@ -34,6 +34,7 @@ Iwwerschwemmung = "Iwwerschwemmunsgefoor"
 # Filepaths
 if test == True:
     folder_path = r"C:\Users\neo_1\Dropbox\Projects\Programing\AGE_StatiounKautebaach"
+    script_path = r"C:\Users\neo_1\Dropbox\Projects\Programing\AGE_StatiounKautebaach"
 else:
     folder_path = "/volume1/homes/Pege_admin/Python_scripts"
     script_path = "/volume1/python_scripts/AGE_StatiounKautebaach"
@@ -163,16 +164,16 @@ Tessy = confidential[3]
 Yves = confidential[4]
 
 # Current and past time
-time_now = fetch_age_data(1)
-time_past = fetch_age_data(2)
+time_now = fetch_age_data(2)
+time_past = fetch_age_data(1)
 
 # Current and past values
 if test == True: 
     value_now = ref_route
     value_past = ref_route+1
 else:
-    value_now = fetch_age_data(3)
-    value_past = fetch_age_data(4)
+    value_now = fetch_age_data(4)
+    value_past = fetch_age_data(3)
 
 # To add date and time when data was retrieved
 datum_zait = datetime.datetime.now() 
