@@ -1,0 +1,35 @@
+body {			
+				background-color: #003F5F;
+				color: red;
+				
+				} 
+			
+			a {
+				color:white;
+				}
+
+			table, th, td {
+				border: 1px solid;
+				border-collapse: collapse;
+				border-color: #003F5F;
+				padding: 15px;
+				font-family:verdana;
+				margin-left: auto;
+				margin-right: auto;
+				font-size:0.75vw;
+				}
+
+			td {
+				text-align: center;
+				}
+
+			th {
+				background-color: #003F5F;
+				color: white;
+				}
+				
+			tr {
+				color: #003F5F;
+				border-bottom: 1px solid #ddd;
+				}
+}

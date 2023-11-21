@@ -1,5 +1,6 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import jinja2
 import smtplib
 
 def send(subject, recipient, password, sender, value):
@@ -14,19 +15,21 @@ def send(subject, recipient, password, sender, value):
     the_msg["From"] = sender
     the_msg["To"] = recipient
     # Create the body of the message
-    message = """<html>
-                    <head>
-                        <title>Waasserpegel Kautebaach</title>
-                    </head>
-                    <body>
-                        <div>
-                            <p>De Waasserpegel steet op """ + str(value) +""" cm.</p>
-                            <p>Source: <a href="https://www.inondations.lu/basins/sauer?station=14&show-details">AGE - Waasserpegel Kautebaach</a></p>
-                        </div>
-                    </body>
-                </html>"""
-    part = MIMEText(message, "html")
+    css_file = open('templates/css.txt', 'r')
+    css = css_file.read()
+    template_loader = jinja2.FileSystemLoader(searchpath='templates')
+    template_env = jinja2.Environment(loader=template_loader)
+    main_template = template_env.get_template('html_message.html')
+    main_html_var = {
+        'css': css,
+        'waterlevel': value
+    }
+
+    html = main_template.render(**main_html_var)
+    part = MIMEText(html, "html")
     # Attach parts into message container.
     the_msg.attach(part)
     email_conn.sendmail(sender, recipient, the_msg.as_string())
     email_conn.quit()
+
+
