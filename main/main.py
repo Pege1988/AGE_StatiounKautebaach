@@ -1,18 +1,11 @@
-# Version 3.1.0
-import datetime
-import age
-import mail
+# Version 3.1.2
 from configparser import ConfigParser
-
-#==============================================================
-#   PARAMETERS
-#==============================================================
+import age
+import datetime
+import mail
 
 config = ConfigParser()
 config.read('config.ini')
-
-# Test parameter (if test local, else synology)
-test = True
 
 # Reference values for triggering alarms
 ref_route = int(config['station']['ref_route'])
@@ -35,33 +28,27 @@ user_1 = config['users']['user_1']
 user_2 = config['users']['user_2']
 user_3 = config['users']['user_3']
 
-# Current and past time
-time_now = age.fetch_data(2, url)
 time_past = age.fetch_data(1, url)
-
-# Current and past values
-
-value_now = age.fetch_data(4, url)
+time_now = age.fetch_data(2, url)
 value_past = age.fetch_data(3, url)
-
-if test == True: 
-    mail.send(Warnung, user_1, config['sender']['pw'], config['sender']['mail'], value_now)
-
-# To add date and time when data was retrieved
+value_now = age.fetch_data(4, url)
 datum_zait = datetime.datetime.now() 
+
+if config['local']['local'] == 'true': 
+    mail.send("Wasserpegel Kautebaach Test", user_1, value_now)
 
 age.add_data_csv(csv_path, time_now, value_now, datum_zait)
 age.add_data_sql(sql_path, time_now, value_now, datum_zait)
 
 if value_now >= ref_route and value_past < ref_route:
-    mail.send(Warnung, user_1, config['sender']['pw'], config['sender']['mail'], value_now)
-    mail.send(Warnung, user_2, config['sender']['pw'], config['sender']['mail'], value_now)
-    mail.send(Warnung, user_3, config['sender']['pw'], config['sender']['mail'], value_now)
+    mail.send(Warnung, user_1, value_now)
+    mail.send(Warnung, user_2, value_now)
+    mail.send(Warnung, user_3, value_now)
 elif value_now <= ref_route and value_past > ref_route:
-    mail.send(Entwarnung, user_1, config['sender']['pw'], config['sender']['mail'], value_now)
-    mail.send(Warnung, user_2, config['sender']['pw'], config['sender']['mail'], value_now)
-    mail.send(Entwarnung, user_3, config['sender']['pw'], config['sender']['mail'], value_now)
+    mail.send(Entwarnung, user_1, value_now)
+    mail.send(Warnung, user_2, value_now)
+    mail.send(Entwarnung, user_3, value_now)
 if value_now >= ref_pannels and value_past < ref_pannels:
-    mail.send(Panneau, user_1, config['sender']['pw'], config['sender']['mail'], value_now)
+    mail.send(Panneau, user_1, value_now)
 if value_now >= ref_flooding and value_past < ref_flooding:
-    mail.send(Iwwerschwemmung, user_1, config['sender']['pw'], config['sender']['mail'], value_now)
+    mail.send(Iwwerschwemmung, user_1, value_now)

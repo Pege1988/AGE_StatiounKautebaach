@@ -1,18 +1,22 @@
+from configparser import ConfigParser
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import jinja2
-import smtplib
+import smtplib 
 
-def send(subject, recipient, password, sender, value):
-    host = "smtp-mail.outlook.com"
-    port = 587
+config = ConfigParser()
+config.read('config.ini')
+
+def send(subject, recipient, value):
+    host = config['sender']['host']
+    port = int(config['sender']['port'])
     email_conn = smtplib.SMTP(host,port)
     email_conn.ehlo()
     email_conn.starttls()
-    email_conn.login(sender, password)
+    email_conn.login(config['sender']['mail'], config['sender']['pw'])
     the_msg = MIMEMultipart("alternative")
     the_msg['Subject'] = subject 
-    the_msg["From"] = sender
+    the_msg["From"] = config['sender']['mail']
     the_msg["To"] = recipient
     # Create the body of the message
     css_file = open('templates/css.txt', 'r')
@@ -29,7 +33,7 @@ def send(subject, recipient, password, sender, value):
     part = MIMEText(html, "html")
     # Attach parts into message container.
     the_msg.attach(part)
-    email_conn.sendmail(sender, recipient, the_msg.as_string())
+    email_conn.sendmail(config['sender']['mail'], recipient, the_msg.as_string())
     email_conn.quit()
 
 
