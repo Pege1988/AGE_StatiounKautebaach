@@ -1,4 +1,4 @@
-# Version 3.1.2
+# Version 3.1.3
 from configparser import ConfigParser
 import age
 import datetime
@@ -46,7 +46,7 @@ if value_now >= ref_route and value_past < ref_route:
     mail.send(Warnung, user_3, value_now)
 elif value_now <= ref_route and value_past > ref_route:
     mail.send(Entwarnung, user_1, value_now)
-    mail.send(Warnung, user_2, value_now)
+    mail.send(Entwarnung, user_2, value_now)
     mail.send(Entwarnung, user_3, value_now)
 if value_now >= ref_pannels and value_past < ref_pannels:
     mail.send(Panneau, user_1, value_now)
